@@ -3,6 +3,7 @@
     public class CreateOrderRequest
     {
         public int Empid { get; set; }
+        public int Custid { get; set; }
         public int Shipperid { get; set; }
         public string Shipname { get; set; } = null!;
         public string Shipaddress { get; set; } = null!;
@@ -16,7 +17,6 @@
         public int Productid { get; set; }
         public decimal Unitprice { get; set; }
         public short Qty { get; set; }
-
         public decimal Discount { get; set; }
     }
 }

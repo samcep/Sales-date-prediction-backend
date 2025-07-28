@@ -7,6 +7,9 @@ public class CreateOrderRequestValidator : AbstractValidator<CreateOrderRequest>
         RuleFor(x => x.Empid)
             .GreaterThan(0).WithMessage("Employee ID must be greater than zero.");
 
+        RuleFor(x => x.Custid)
+            .GreaterThan(0).WithMessage("Customer ID must be greater than zero.");
+
         RuleFor(x => x.Shipperid)
             .GreaterThan(0).WithMessage("Shipper ID must be greater than zero.");
 
@@ -41,7 +44,5 @@ public class CreateOrderRequestValidator : AbstractValidator<CreateOrderRequest>
         RuleFor(x => x.Qty)
             .GreaterThan((short)0).WithMessage("Quantity must be greater than zero.");
 
-        RuleFor(x => x.Discount)
-            .InclusiveBetween(0, 1).WithMessage("Discount must be between 0 and 1.");
     }
 }

@@ -4,6 +4,7 @@ using template_webapi.Common.Controllers;
 using template_webapi.Common.Response;
 using template_webapi.Data.Entities;
 using template_webapi.Features.Clients.Dtos;
+using template_webapi.Features.Customers.Dtos;
 using template_webapi.Features.Customers.Interfaces;
 
 namespace template_webapi.Features.Clients.Controller
@@ -24,7 +25,7 @@ namespace template_webapi.Features.Clients.Controller
         public async Task<IActionResult> GetCustomerNextOrderPredictions(CancellationToken cts)
         {
             var result = await _customerService.GetCustomerNextOrderPredictions(cts);
-            return Ok(result);
+            return Ok(ApiResponse<IEnumerable<CustomerPredictionResponse>>.Ok(result));
         }
 
         [HttpGet("{id:int}/orders")]
@@ -35,7 +36,7 @@ namespace template_webapi.Features.Clients.Controller
                 return BadRequest(ApiResponse<string>.Fail("Invalid Id cannot be zero or less than zero"));
             }
             var result = await _customerService.GetCustomerOrders(id);
-            return Ok(result);
+            return Ok(ApiResponse<IEnumerable<CustomerOrder>>.Ok(result));
         }
 
 

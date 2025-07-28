@@ -19,7 +19,7 @@ namespace template_webapi.Common.Middelwares
         {
             try
             {
-                await _next(context); 
+                await _next(context);
             }
             catch (Exception ex)
             {
@@ -27,7 +27,7 @@ namespace template_webapi.Common.Middelwares
 
                 var statusCode = ex switch
                 {
-                    SqlException => (int)HttpStatusCode.ServiceUnavailable, 
+                    SqlException => (int)HttpStatusCode.ServiceUnavailable,
                     KeyNotFoundException => (int)HttpStatusCode.NotFound,
                     ArgumentException => (int)HttpStatusCode.BadRequest,
                     _ => (int)HttpStatusCode.InternalServerError
@@ -35,14 +35,25 @@ namespace template_webapi.Common.Middelwares
 
                 context.Response.StatusCode = statusCode;
 
+                var innermost = GetInnermostException(ex);
+
                 var response = ApiResponse<string>.Fail(
-                    message: "Something were wrong!.",
-                    errors: new List<string> { ex.Message }
+                    message: "Something went wrong.",
+                    errors: new List<string> { innermost.Message }
                 );
 
                 var json = JsonSerializer.Serialize(response);
                 await context.Response.WriteAsync(json);
             }
+        }
+
+        private Exception GetInnermostException(Exception ex)
+        {
+            while (ex.InnerException != null)
+            {
+                ex = ex.InnerException;
+            }
+            return ex;
         }
     }
 }
